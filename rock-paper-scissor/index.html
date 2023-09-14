@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="UTF-8">
+    <head>
+        <title>Rock Paper Scissors</title>
+        <script scr = "script.js"></script>
+    </head>
+    <body>
+
+        <div>
+            <button id = 'rock'>rock</button>
+            <button id = 'paper'>paper</button>
+            <button id = 'scissors'>scissors</button>
+        </div>
+
+        <div id = 'results'></div>
+
+        <script>
+            let playerScore = 0;
+            let computerScore = 0;
+            const maxScore = 5; // Define the maximum score required to win
+
+            function getComputerChoice() {
+                const pick = ['rock', 'paper', 'scissors'];
+                const randomIndex = Math.floor(Math.random() * pick.length);
+                return pick[randomIndex];
+            }
+
+            function updateResults(result) {
+                const resultsDiv = document.getElementById('results');
+                resultsDiv.textContent = result;
+
+                    if (playerScore === maxScore || computerScore === maxScore) {
+                        const winner = playerScore === maxScore ? 'You' : 'Computer';
+                        resultsDiv.textContent += `\n${winner} wins the game!`;
+                        // You can also disable the buttons here to prevent further gameplay.
+                        document.getElementById('rock').disabled = true;
+                        document.getElementById('paper').disabled = true;
+                        document.getElementById('scissors').disabled = true;
+                    }
+            }
+
+            function playRound(playerSelection) {
+                const computerSelection = getComputerChoice();
+                let result;
+
+                    if (playerSelection === computerSelection) {
+                        result = `It's a tie! You both picked ${playerSelection}.`;
+                    } else if (
+                        (playerSelection === 'rock' && computerSelection === 'scissors') ||
+                        (playerSelection === 'paper' && computerSelection === 'rock') ||
+                        (playerSelection === 'scissors' && computerSelection === 'paper')
+                    ) {
+                     playerScore++;
+                        result = `You win! ${playerSelection} beats ${computerSelection}. Your score: ${playerScore}`;
+                    } else {
+                        computerScore++;
+                                result = `You lose! ${computerSelection} beats ${playerSelection}. Computer score: ${computerScore}`;
+                    }
+
+                    updateResults(result);
+            }
+
+        document.getElementById('rock').addEventListener('click', () => playRound('rock'));
+        document.getElementById('paper').addEventListener('click', () => playRound('paper'));
+        document.getElementById('scissors').addEventListener('click', () => playRound('scissors'));
+
+        
+    </script>
+</body>
+</html>
